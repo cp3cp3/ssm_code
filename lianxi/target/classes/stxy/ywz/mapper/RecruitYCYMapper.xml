@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stxy.ywz.mapper.RecruitYCYMapper">
+     <insert id="insert" parameterType="stxy.ywz.bean.Recruit">
+        insert into recruit(recname,degree,experience,extent,cusername,type,address) values
+      (
+      #{recname},#{degree},#{experience},#{extent},#{cusername},#{type},#{address});
+     </insert>
+     
+     <select id="list" parameterType="stxy.ywz.bean.Recruit" resultType="stxy.ywz.bean.Recruit">
+          select * from recruit where rstate=0 
+     </select>
+     <select id="adlist" parameterType="stxy.ywz.bean.Recruit" resultType="stxy.ywz.bean.Recruit">
+          select * from recruit where rstate=0 
+     </select>
+     
+     <select id="listbyid" parameterType="int" resultType="stxy.ywz.bean.Recruit">
+         select * from recruit where recid = #{recid,jdbcType=INTEGER} and rstate=0
+     </select>
+     
+     <select id="blist" parameterType="stxy.ywz.bean.Recruit" resultType="stxy.ywz.bean.Recruit">
+          select * from recruit where cusername = #{cusername} and rstate=0
+     </select>
+     
+     <update id="bupdate" parameterType="stxy.ywz.bean.Recruit">
+         update recruit set
+          recname=#{recname,jdbcType=VARCHAR},
+          degree=#{degree,jdbcType=VARCHAR},
+          experience=#{experience,jdbcType=INTEGER},
+          extent=#{extent,jdbcType=VARCHAR},
+           address=#{address,jdbcType=VARCHAR},
+           type=#{type,jdbcType=VARCHAR}
+           where recid=#{recid,jdbcType=INTEGER}
+   
+     </update>
+     
+     <update id="bdelete" parameterType="stxy.ywz.bean.Recruit">
+        update recruit set rstate=1 where recid = #{recid}
+     </update>
+     
+     <update id="addelete" parameterType="stxy.ywz.bean.Recruit">
+        update recruit set rstate=1 where recid = #{recid}
+     </update>
+     
+     
+     
+    
+  
+</mapper>

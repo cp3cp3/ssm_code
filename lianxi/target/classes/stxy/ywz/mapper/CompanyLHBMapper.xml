@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stxy.ywz.mapper.CompanyLHBMapper">
+	<select id="findGSperson" resultType="Person">
+	SELECT * from   person WHERE   cusername =  #{cusername} and pstate = 0
+	</select>
+
+	<delete id="deletePerson" parameterType="int">
+
+
+	DELETE  FROM person WHERE resumeid=  #{resumeid}
+	</delete>
+
+	<update id="luquPerson" parameterType="int">
+	UPDATE person SET pstate = 1 WHERE resumeid = #{resumeid}
+	</update>
+
+</mapper>

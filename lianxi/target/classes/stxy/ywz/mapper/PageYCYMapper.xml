@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stxy.ywz.mapper.PageYCYMapper">
+<!-- 查找所有可用招聘信息 -->
+ <select id="queryAllRecruit" parameterType="stxy.ywz.bean.SeeRecordy" resultType="stxy.ywz.bean.Recruit">
+    SELECT * FROM recruit WHERE rstate=0 limit #{pagey.startPos},#{pagey.pageSize}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getCount" resultType="int">
+        select count(*) from recruit where rstate=0
+    </select>
+    
+    
+     <!-- 查找本公司招聘信息 -->
+ <select id="querybRecruit" parameterType="stxy.ywz.bean.SeeRecordy" resultType="stxy.ywz.bean.Recruit">
+    SELECT * FROM recruit WHERE rstate=0 and  cusername = #{pagey.cusername} limit #{pagey.startPos},#{pagey.pageSize}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+  
+    
+    <select id="getCountb" resultType="int" parameterType="stxy.ywz.bean.Recruit">
+        select count(*) from recruit where rstate=0 and cusername = #{cusername}
+    </select>
+</mapper>

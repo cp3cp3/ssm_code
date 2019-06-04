@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stxy.ywz.mapper.PutongMapper">
+
+    <!-- 普通用户注册信息 -->
+   <insert id="insertpt" parameterType="stxy.ywz.bean.Putong">
+		insert into userinfo
+		(username,password,email)values(
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}
+		);
+	</insert>
+   
+      <!-- 普通用户登录 -->
+   <select id="loginpt" parameterType="stxy.ywz.bean.Putong"
+		resultType="stxy.ywz.bean.Putong">
+		select * from userinfo where username=#{username,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR}
+	</select>
+	
+	   <!-- 校验用户名和邮箱 -->
+   <select id="selectUserame" resultType="stxy.ywz.bean.Putong">
+   select * from userinfo where username=#{username ,jdbcType=VARCHAR}
+   </select>
+   <select id="selectEmail" resultType="stxy.ywz.bean.Putong">
+   select * from userinfo where email=#{email}
+   </select>
+   
+   <!-- 普通用户进入到普通用户首页 -->
+    <select id="queryAllRecname" parameterType="stxy.ywz.bean.SeeRecord" resultType="stxy.ywz.bean.Recruit">
+    SELECT * FROM recruit WHERE rstate=0 limit #{page.startPos},#{page.pageSize}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getCount" resultType="int">
+        select count(*) from recruit where rstate=0
+    </select>
+   
+  <!--  修改个人信息前查询本人信息 -->
+  <select id="selectUsername" resultType="stxy.ywz.bean.Putong">
+   select * from userinfo where username=#{username}
+  </select>
+  
+ <!--  修改个人账号信息 -->
+ <update id="updateUsername" parameterType="stxy.ywz.bean.Putong">
+ update userinfo set username=#{username},password=#{password},email=#{email} where username=#{username}
+ </update>
+  
+  <!-- 新闻列表 获取状态为0的所有新闻信息 -->
+ 	<select id="list1" parameterType="stxy.ywz.bean.News"
+		resultType="stxy.ywz.bean.News">
+		select * from news where nstate = 0
+	</select> 
+	<!-- 提交个人简历 -->
+	<insert id="insertGrjl" parameterType="stxy.ywz.bean.Person">
+	insert into person (cusername,username,uname,sex,skill,experience,degree,appraise,email) values(
+	#{cusername},
+	#{username},
+	#{uname},
+	#{sex},
+	#{skill},
+	#{experience},
+	#{degree},
+	#{appraise},
+	#{email}
+	);
+	</insert>
+	
+	<!-- 模糊搜索分页 -->
+    <select id="queryRecname"  resultType="stxy.ywz.bean.Recruit">
+    SELECT * FROM recruit WHERE recname like "%"#{0}"%"and rstate=0 limit #{1},#{2}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getsearchCount" resultType="int">
+        select count(*) from recruit where recname like "%"#{recname}"%" and rstate=0
+    </select>
+
+      <!-- 简历通知 -->
+      <select id="selectgrjl" parameterType="java.lang.String" resultType="stxy.ywz.bean.Company">
+        select company.cusername, company.cname,company.address, company.email from company,person where company.cusername=person.cusername
+        and person.username=#{username} and pstate=1
+      </select>
+      
+</mapper>

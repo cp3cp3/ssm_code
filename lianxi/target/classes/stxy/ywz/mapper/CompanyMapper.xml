@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stxy.ywz.mapper.CompanyMapper">
+    <!-- 公司代表人注册信息 -->
+   <insert id="insertCompany" parameterType="Company">
+      insert into company(cusername,password,cname,email,address) values
+      (
+      #{cusername},#{password},#{cname},#{email},#{address}) 
+   </insert>
+   
+   <!-- 校验用户名 -->
+   <select id="selectCuserame" resultType="Company">
+   select * from company where cusername=#{cusername}
+   </select>
+   
+  <!--  校验公司名 -->
+   <select id="selectCname" resultType="Company">
+   select * from company where cname=#{cname}
+   </select>
+   
+   <!-- 公司代表人登录 -->
+   <select id="findCuserAndPwd" resultType="Company">
+   select * from company where cusername=#{cusername} and password=#{password} 
+   </select>
+   
+   <!-- 公司代表人进入到公司首页 -->
+   <select id="queryAllRecname" parameterType="stxy.ywz.bean.SeeRecord" resultType="stxy.ywz.bean.Recruit">
+    SELECT * FROM recruit WHERE rstate=0 limit #{page.startPos},#{page.pageSize}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getCount" resultType="int">
+        select count(*) from recruit where rstate=0
+    </select>
+    
+    <!-- 新闻列表 获取状态为0的所有新闻信息 -->
+ 	<select id="list1" parameterType="stxy.ywz.bean.News"
+		resultType="stxy.ywz.bean.News">
+		select * from news where nstate = 0
+	</select>
+   
+   <!-- 修改账号信息前查询 -->
+   <select id="selectName" resultType="Company">
+     select cusername,password,cname,email,address from company where cusername=#{cusername}
+   </select>
+   
+   <!-- 进行账号信息修改 -->
+   <update id="updateCusername" parameterType="Company">
+    update company set cusername=#{cusername}, password=#{password},cname=#{cname},
+    email=#{email},address=#{address},cstate=1 where cusername=#{cusername}
+    </update>
+    
+    <!-- 模糊搜索分页 -->
+    <select id="queryRecname"  resultType="stxy.ywz.bean.Recruit">
+    SELECT * FROM recruit WHERE recname like "%"#{0}"%"and rstate=0 limit #{1},#{2}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getsearchCount" resultType="int">
+        select count(*) from recruit where recname like "%"#{recname}"%" and rstate=0
+    </select>
+    
+    <!-- 待面试用户简历 -->
+    <select id="queryWaitPerson" parameterType="stxy.ywz.bean.SeeRecord" resultType="stxy.ywz.bean.Person">
+    SELECT * FROM person WHERE cusername=#{0} and pstate=1 limit #{1},#{2}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getCountPerson" resultType="int">
+        select count(*) from person where pstate=1 and cusername=#{cusername}
+    </select>
+    
+     <!-- 删除已面试用户简历 -->
+     <delete id="deleteWaitPerson" parameterType="int">
+     delete from person where resumeid=#{resumeid}
+     </delete>
+</mapper>

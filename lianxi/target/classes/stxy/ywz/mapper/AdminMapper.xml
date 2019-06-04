@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stxy.ywz.mapper.AdminMapper">
+    <!-- 管理员登录查询 -->
+    <select id="findNameAndPwd" resultType="Admin">
+       select ausername,password,astate from admins where 
+       ausername=#{ausername} and password=#{password}
+    </select>
+    
+    <!--管理员修改信息前查询本人信息  -->
+    <select id="selectAusername" resultType="Admin">
+     select ausername,password,email from admins where ausername=#{ausername}
+    </select>
+    
+     <!--  管理员提交修改的个人信息 -->
+    <update id="updateAusername" parameterType="Admin">
+    update admins set ausername=#{ausername}, password=#{password},
+    email=#{email} where ausername=#{ausername}
+    </update>
+    
+    <!-- 管理员查询审核公司代表人账号信息 -->
+    <select id="queryAllCusername" parameterType="stxy.ywz.bean.SeeRecord" resultType="stxy.ywz.bean.Company">
+    SELECT * FROM company WHERE cstate=1 limit #{page.startPos},#{page.pageSize}<!--startPos开始页 ， pageSize每页显示的记录条数--> 
+    </select>
+    <select id="getCount" resultType="int">
+        select count(*) from company where cstate=1
+    </select>
+    
+    <!-- 审核公司代表人信息 -->
+    <update id="updateCusername" parameterType="Company">
+    update company set cstate=0 where cusername=#{cusername}
+    </update>
+  
+</mapper>

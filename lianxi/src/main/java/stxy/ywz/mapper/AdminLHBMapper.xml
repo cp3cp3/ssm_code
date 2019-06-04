@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stxy.ywz.mapper.AdminLHBMapper">
+	<select id="findAllperson" resultType="Person">
+	SELECT * from   person 
+	</select>
+	
+	<delete id="updatePerson" parameterType="int">
+
+
+	DELETE  FROM person WHERE resumeid=  #{resumeid}
+	</delete>
+
+</mapper>
